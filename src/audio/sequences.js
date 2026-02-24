@@ -104,18 +104,35 @@ const SEQUENCE_DATA = [
   },
   {
     name: 'Chamber of Reflection',
-    tempo: 78,
-    loopEnd: '2m',
+    tempo: 131,
+    loopEnd: '8m',
     notes: [
-      // Bar 1
-      { note: 'Eb4', duration: '4n', time: '0:0:0' },
-      { note: 'Bb3', duration: '4n', time: '0:1:0' },
-      { note: 'Ab3', duration: '4n', time: '0:2:0' },
-      { note: 'Bb3', duration: '4n', time: '0:3:0' },
+      // Bar 1: half rest, then —
+      { note: 'Gb5', duration: '4n',  time: '0:2:0' },
+      { note: 'Eb5', duration: '4n',  time: '0:3:0' },
       // Bar 2
-      { note: 'Eb4', duration: '4n', time: '1:0:0' },
-      { note: 'Bb3', duration: '4n', time: '1:1:0' },
-      { note: 'Ab3', duration: '2n', time: '1:2:0' },
+      { note: 'Bb4', duration: '4n.', time: '1:0:0' },
+      { note: 'Cb5', duration: '16n', time: '1:1:2' },
+      { note: 'Bb4', duration: '16n', time: '1:1:3' },
+      { note: 'Ab4', duration: '2n',  time: '1:2:0' },
+      // Bar 3: half rest, then —
+      { note: 'Bb4', duration: '4n',  time: '2:2:0' },
+      { note: 'Cb5', duration: '4n',  time: '2:3:0' },
+      // Bar 4
+      { note: 'Db5', duration: '4n.', time: '3:0:0' },
+      { note: 'Bb4', duration: '8n',  time: '3:1:2' },
+      { note: 'Ab4', duration: '2n',  time: '3:2:0' },
+      // Bar 5
+      { note: 'F4',  duration: '4n.', time: '4:0:0' },
+      { note: 'Gb4', duration: '16n', time: '4:1:2' },
+      { note: 'Eb4', duration: '16n', time: '4:1:3' },
+      { note: 'Db4', duration: '2n',  time: '4:2:0' },
+      // Bar 6: dotted half rest, eighth rest, then —
+      { note: 'Db4', duration: '8n',  time: '5:3:2' },
+      // Bar 7
+      { note: 'Eb4', duration: '8n',  time: '6:0:0' },
+      { note: 'Bb3', duration: '8n',  time: '6:0:2' },
+      // Bar 8: whole rest (loop restarts)
     ],
   },
   {
