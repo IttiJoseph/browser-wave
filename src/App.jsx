@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useAudioEngine } from './hooks/useAudioEngine.js'
+import TransportBar from './components/TransportBar.jsx'
+import OscillatorPanel from './components/OscillatorPanel.jsx'
+import FilterPanel from './components/FilterPanel.jsx'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const {
+    params,
+    isDroning,
+    audioReady,
+    startDrone,
+    stopDrone,
+    setWaveform,
+    setFrequency,
+    setAmplitude,
+    setFilterType,
+    setFilterCutoff,
+    setFilterResonance,
+  } = useAudioEngine()
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="min-h-screen bg-stone-950 text-stone-100">
+      <TransportBar
+        isDroning={isDroning}
+        audioReady={audioReady}
+        onPlay={startDrone}
+        onStop={stopDrone}
+      />
+
+      <main className="max-w-2xl mx-auto px-4 py-6 flex flex-col gap-4">
+        <OscillatorPanel
+          params={params}
+          onWaveform={setWaveform}
+          onFrequency={setFrequency}
+          onAmplitude={setAmplitude}
+        />
+
+        <FilterPanel
+          params={params}
+          onFilterType={setFilterType}
+          onCutoff={setFilterCutoff}
+          onResonance={setFilterResonance}
+        />
+      </main>
+    </div>
   )
 }
-
-export default App
