@@ -402,6 +402,16 @@ export function setDelay(mix, time, feedback) {
 
 // ─── Utilities ─────────────────────────────────────────────────────────────────
 
+/**
+ * Trigger a single note (used by sequences.js).
+ * @param {string} note      Tone.js note string, e.g. "C4"
+ * @param {string} duration  Tone.js duration, e.g. "8n", "4n"
+ * @param {number} time      AudioContext scheduled time from Tone.Part callback
+ */
+export function triggerNote(note, duration, time) {
+  synth.triggerAttackRelease(note, duration, time);
+}
+
 /** Returns the Tone.Analyser node for oscilloscope reads. */
 export function getAnalyser() {
   return analyser;

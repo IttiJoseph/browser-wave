@@ -12,11 +12,14 @@
 
 import { useState, useCallback } from 'react'
 import * as engine from '../audio/engine.js'
+import * as sequencer from '../audio/sequences.js'
 
 export function useAudioEngine() {
   const [params, setParams] = useState({ ...engine.DEFAULTS })
   const [isDroning, setIsDroning] = useState(false)
   const [audioReady, setAudioReady] = useState(false)
+  const [activeSequenceIndex, setActiveSequenceIndex] = useState(null)
+  const [isSequencePlaying, setIsSequencePlaying] = useState(false)
 
   // Must be called from a user gesture — satisfies browser autoplay policy
   const ensureInit = useCallback(async () => {
@@ -30,9 +33,15 @@ export function useAudioEngine() {
 
   const startDrone = useCallback(async () => {
     await ensureInit()
+    // Stop sequence if one is playing
+    if (isSequencePlaying) {
+      sequencer.stopSequence()
+      setActiveSequenceIndex(null)
+      setIsSequencePlaying(false)
+    }
     engine.startDrone()
     setIsDroning(true)
-  }, [ensureInit])
+  }, [ensureInit, isSequencePlaying])
 
   const stopDrone = useCallback(() => {
     engine.stopDrone()
@@ -117,6 +126,26 @@ export function useAudioEngine() {
     setParams(p => ({ ...p, lfoTarget: target }))
   }, [])
 
+  // ─── Sequences ───────────────────────────────────────────────────────────────
+
+  const startSequence = useCallback(async (index) => {
+    await ensureInit()
+    // Stop drone if playing
+    if (isDroning) {
+      engine.stopDrone()
+      setIsDroning(false)
+    }
+    sequencer.startSequence(index)
+    setActiveSequenceIndex(index)
+    setIsSequencePlaying(true)
+  }, [ensureInit, isDroning])
+
+  const stopSequence = useCallback(() => {
+    sequencer.stopSequence()
+    setActiveSequenceIndex(null)
+    setIsSequencePlaying(false)
+  }, [])
+
   // ─── Effects ─────────────────────────────────────────────────────────────────
 
   const setReverbMix = useCallback((mix) => {
@@ -150,6 +179,11 @@ export function useAudioEngine() {
     audioReady,
     startDrone,
     stopDrone,
+    sequences: sequencer.SEQUENCE_META,
+    activeSequenceIndex,
+    isSequencePlaying,
+    startSequence,
+    stopSequence,
     setWaveform,
     setFrequency,
     setAmplitude,

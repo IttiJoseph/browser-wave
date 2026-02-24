@@ -12,6 +12,11 @@ export default function App() {
     audioReady,
     startDrone,
     stopDrone,
+    sequences,
+    activeSequenceIndex,
+    isSequencePlaying,
+    startSequence,
+    stopSequence,
     setWaveform,
     setFrequency,
     setAmplitude,
@@ -35,6 +40,11 @@ export default function App() {
         audioReady={audioReady}
         onPlay={startDrone}
         onStop={stopDrone}
+        sequences={sequences}
+        activeSequenceIndex={activeSequenceIndex}
+        isSequencePlaying={isSequencePlaying}
+        onStartSequence={startSequence}
+        onStopSequence={stopSequence}
       />
 
       <main className="max-w-2xl mx-auto px-4 py-6 flex flex-col gap-4">
