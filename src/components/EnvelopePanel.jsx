@@ -58,20 +58,53 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
 
       {/* SVG envelope shape preview */}
       <div className="mb-6">
+        <div style={{
+          borderRadius: '10px',
+          overflow: 'hidden',
+          border: '1px solid #3D582E',
+          boxShadow:
+            'inset 0 5px 12px rgba(0,0,0,0.4),' +
+            'inset 3px 0 8px rgba(0,0,0,0.25),' +
+            'inset 0 0 24px rgba(0,0,0,0.55)',
+          position: 'relative',
+        }}>
         <svg
           viewBox="0 0 200 56"
-          className="w-full h-14 rounded bg-stone-950 border border-hw-border"
+          className="w-full h-14"
           preserveAspectRatio="none"
+          style={{ background: '#31461D', display: 'block' }}
         >
+          <defs>
+            <filter id="envGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="1.5" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+
+          {/* Horizontal gridlines — y=4 (peak), 16, 28 (50%), 40, 52 (silence) */}
+          {[4, 16, 28, 40, 52].map(y => (
+            <line key={y} x1="0" y1={y} x2="200" y2={y}
+              stroke={y === 28 ? '#4D6E3A' : '#3D582E'} strokeWidth="0.5" />
+          ))}
+
+          {/* Vertical gridlines — 4 evenly spaced */}
+          {[40, 80, 120, 160].map(x => (
+            <line key={x} x1={x} y1="0" x2={x} y2="56"
+              stroke="#3D582E" strokeWidth="0.5" />
+          ))}
+
+          {/* Envelope curve with phosphor glow */}
           <polyline
             points={points}
             fill="none"
-            stroke="#10b981"
+            stroke="#6edd6e"
             strokeWidth="1.5"
             strokeLinejoin="round"
             strokeLinecap="round"
+            filter="url(#envGlow)"
           />
         </svg>
+        </div>
       </div>
 
       {/* Attack */}

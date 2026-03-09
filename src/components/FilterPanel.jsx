@@ -13,6 +13,11 @@ const sliderToCutoff = (val) => Math.round(20 * Math.pow(1000, val / 100))
 
 const fmtHz = (hz) => hz >= 1000 ? `${(hz / 1000).toFixed(1)} kHz` : `${hz} Hz`
 
+const BTN_BG     = '#ddd5c8'
+const BTN_BORDER = '#c8bcaf'
+const LED_OFF    = '#a09080'
+const SKY        = '#0ea5e9'
+
 const FILTER_TYPES = [
   { value: 'lowpass',  label: 'LP' },
   { value: 'highpass', label: 'HP' },
@@ -38,20 +43,34 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
           <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Type</span>
           <Tooltip text="Low-pass lets bass through and cuts treble. High-pass does the opposite. Band-pass lets a narrow band through." />
         </div>
-        <div className="flex rounded overflow-hidden border border-hw-border">
-          {FILTER_TYPES.map(({ value, label }) => (
-            <button
-              key={value}
-              onClick={() => onFilterType(value)}
-              className={`flex-1 py-2 text-xs font-mono tracking-wider uppercase transition-colors duration-100
-                ${filterType === value
-                  ? 'bg-sky-600 text-white font-bold'
-                  : 'bg-hw-raised text-hw-body hover:bg-hw-border hover:text-hw-strong'
-                }`}
-            >
-              {label}
-            </button>
-          ))}
+        <div className="flex gap-1.5">
+          {FILTER_TYPES.map(({ value, label }) => {
+            const isActive = filterType === value
+            return (
+              <button
+                key={value}
+                onClick={() => onFilterType(value)}
+                className="flex-1 flex items-center gap-1.5 px-2 py-1.5 rounded transition-all duration-75"
+                style={{
+                  background: isActive ? '#c8bcaf' : BTN_BG,
+                  border: `1px solid ${BTN_BORDER}`,
+                  boxShadow: isActive
+                    ? 'inset 1px 1px 0 rgba(0,0,0,0.15), inset -1px -1px 0 rgba(255,255,255,0.2)'
+                    : 'inset 1px 1px 0 rgba(255,255,255,0.5), inset -1px -1px 0 rgba(0,0,0,0.15)',
+                }}
+              >
+                <span style={{
+                  width: '5px', height: '5px', borderRadius: '1px', flexShrink: 0, display: 'inline-block',
+                  background: isActive ? SKY : LED_OFF,
+                  boxShadow: isActive ? `0 0 5px ${SKY}, 0 0 2px ${SKY}` : 'none',
+                }} />
+                <span className="text-[10px] font-mono tracking-widest uppercase"
+                  style={{ color: isActive ? '#2a1f1c' : '#6b5e56' }}>
+                  {label}
+                </span>
+              </button>
+            )
+          })}
         </div>
       </div>
 

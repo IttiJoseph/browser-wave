@@ -29,13 +29,6 @@ const LFO_CENTER_X = 188 + BOX_W / 2
 export default function SignalFlowDiagram({ activePanel }) {
   return (
     <section className="bg-hw-panel border border-hw-border rounded-lg p-5">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-1.5 h-4 rounded-sm bg-hw-body" />
-        <h2 className="text-xs font-mono font-bold tracking-widest text-hw-label uppercase">
-          Signal Flow
-        </h2>
-      </div>
-
       <svg
         viewBox="0 0 520 110"
         className="w-full"

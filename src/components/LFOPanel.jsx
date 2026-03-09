@@ -39,7 +39,10 @@ const LFO_TARGETS = [
   { value: 'amplitude', label: 'Amp' },
 ]
 
-const IDLE_COLOR = '#9e8f84'  // hw-muted
+const BTN_BG     = '#ddd5c8'
+const BTN_BORDER = '#c8bcaf'
+const LED_OFF    = '#a09080'
+const VIOLET     = '#8b5cf6'
 
 export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth, onLFOTarget }) {
   const { lfoWaveform, lfoRate, lfoDepth, lfoTarget } = params
@@ -60,7 +63,7 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
           <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Waveform</span>
           <Tooltip text="The shape of the LFO's modulation cycle. Sine = smooth sweep, square = on/off gate, triangle = linear ramp, sawtooth = one-sided ramp." />
         </div>
-        <div className="flex rounded overflow-hidden border border-hw-border">
+        <div className="flex gap-1.5">
           {LFO_WAVEFORMS.map(({ value, label, pts }) => {
             const isActive = lfoWaveform === value
             return (
@@ -68,17 +71,25 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
                 key={value}
                 onClick={() => onLFOWaveform(value)}
                 title={label}
-                className={`flex-1 py-2 flex justify-center items-center transition-colors duration-100
-                  ${isActive
-                    ? 'bg-violet-600'
-                    : 'bg-hw-raised hover:bg-hw-border'
-                  }`}
+                className="flex-1 flex flex-col items-center gap-1 px-1.5 py-1.5 rounded transition-all duration-75"
+                style={{
+                  background: isActive ? '#c8bcaf' : BTN_BG,
+                  border: `1px solid ${BTN_BORDER}`,
+                  boxShadow: isActive
+                    ? 'inset 1px 1px 0 rgba(0,0,0,0.15), inset -1px -1px 0 rgba(255,255,255,0.2)'
+                    : 'inset 1px 1px 0 rgba(255,255,255,0.5), inset -1px -1px 0 rgba(0,0,0,0.15)',
+                }}
               >
-                <svg viewBox="0 0 48 24" className="w-8 h-4">
+                <span style={{
+                  width: '5px', height: '5px', borderRadius: '1px', display: 'inline-block',
+                  background: isActive ? VIOLET : LED_OFF,
+                  boxShadow: isActive ? `0 0 5px ${VIOLET}, 0 0 2px ${VIOLET}` : 'none',
+                }} />
+                <svg viewBox="0 0 48 24" className="w-full h-3">
                   <polyline
                     points={pts}
                     fill="none"
-                    stroke={isActive ? '#fff' : IDLE_COLOR}
+                    stroke={isActive ? '#2a1f1c' : '#6b5e56'}
                     strokeWidth="1.5"
                     strokeLinejoin="round"
                     strokeLinecap="round"
@@ -146,20 +157,34 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
           <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Target</span>
           <Tooltip text="Which parameter the LFO modulates — filter cutoff, oscillator pitch, or volume." />
         </div>
-        <div className="flex rounded overflow-hidden border border-hw-border">
-          {LFO_TARGETS.map(({ value, label }) => (
-            <button
-              key={value}
-              onClick={() => onLFOTarget(value)}
-              className={`flex-1 py-2 text-xs font-mono tracking-wider uppercase transition-colors duration-100
-                ${lfoTarget === value
-                  ? 'bg-violet-600 text-white font-bold'
-                  : 'bg-hw-raised text-hw-body hover:bg-hw-border hover:text-hw-strong'
-                }`}
-            >
-              {label}
-            </button>
-          ))}
+        <div className="flex gap-1.5">
+          {LFO_TARGETS.map(({ value, label }) => {
+            const isActive = lfoTarget === value
+            return (
+              <button
+                key={value}
+                onClick={() => onLFOTarget(value)}
+                className="flex-1 flex items-center gap-1.5 px-2 py-1.5 rounded transition-all duration-75"
+                style={{
+                  background: isActive ? '#c8bcaf' : BTN_BG,
+                  border: `1px solid ${BTN_BORDER}`,
+                  boxShadow: isActive
+                    ? 'inset 1px 1px 0 rgba(0,0,0,0.15), inset -1px -1px 0 rgba(255,255,255,0.2)'
+                    : 'inset 1px 1px 0 rgba(255,255,255,0.5), inset -1px -1px 0 rgba(0,0,0,0.15)',
+                }}
+              >
+                <span style={{
+                  width: '5px', height: '5px', borderRadius: '1px', flexShrink: 0, display: 'inline-block',
+                  background: isActive ? VIOLET : LED_OFF,
+                  boxShadow: isActive ? `0 0 5px ${VIOLET}, 0 0 2px ${VIOLET}` : 'none',
+                }} />
+                <span className="text-[10px] font-mono tracking-widest uppercase"
+                  style={{ color: isActive ? '#2a1f1c' : '#6b5e56' }}>
+                  {label}
+                </span>
+              </button>
+            )
+          })}
         </div>
       </div>
     </section>

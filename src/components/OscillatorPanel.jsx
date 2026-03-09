@@ -33,7 +33,10 @@ const WAVEFORMS = [
   { value: 'sawtooth', label: 'Saw',    pts: sawPts },
 ]
 
-const IDLE_COLOR = '#9e8f84'  // hw-muted
+const BTN_BG     = '#ddd5c8'
+const BTN_BORDER = '#c8bcaf'
+const LED_OFF    = '#a09080'
+const AMBER      = '#f59e0b'
 
 export default function OscillatorPanel({ params, onWaveform, onFrequency, onAmplitude }) {
   const { waveform, frequency, amplitude } = params
@@ -54,7 +57,7 @@ export default function OscillatorPanel({ params, onWaveform, onFrequency, onAmp
           <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Waveform</span>
           <Tooltip text="The shape of the sound wave. Sine is pure and smooth, square is buzzy and hollow, sawtooth is bright and cutting." />
         </div>
-        <div className="flex rounded overflow-hidden border border-hw-border">
+        <div className="flex gap-1.5">
           {WAVEFORMS.map(({ value, label, pts }) => {
             const isActive = waveform === value
             return (
@@ -62,17 +65,25 @@ export default function OscillatorPanel({ params, onWaveform, onFrequency, onAmp
                 key={value}
                 onClick={() => onWaveform(value)}
                 title={label}
-                className={`flex-1 py-2 flex justify-center items-center transition-colors duration-100
-                  ${isActive
-                    ? 'bg-amber-500'
-                    : 'bg-hw-raised hover:bg-hw-border'
-                  }`}
+                className="flex-1 flex flex-col items-center gap-1 px-2 py-1.5 rounded transition-all duration-75"
+                style={{
+                  background: isActive ? '#c8bcaf' : BTN_BG,
+                  border: `1px solid ${BTN_BORDER}`,
+                  boxShadow: isActive
+                    ? 'inset 1px 1px 0 rgba(0,0,0,0.15), inset -1px -1px 0 rgba(255,255,255,0.2)'
+                    : 'inset 1px 1px 0 rgba(255,255,255,0.5), inset -1px -1px 0 rgba(0,0,0,0.15)',
+                }}
               >
-                <svg viewBox="0 0 48 24" className="w-10 h-5">
+                <span style={{
+                  width: '5px', height: '5px', borderRadius: '1px', display: 'inline-block',
+                  background: isActive ? AMBER : LED_OFF,
+                  boxShadow: isActive ? `0 0 5px ${AMBER}, 0 0 2px ${AMBER}` : 'none',
+                }} />
+                <svg viewBox="0 0 48 24" className="w-full h-4">
                   <polyline
                     points={pts}
                     fill="none"
-                    stroke={isActive ? '#fff' : IDLE_COLOR}
+                    stroke={isActive ? '#2a1f1c' : '#6b5e56'}
                     strokeWidth="1.5"
                     strokeLinejoin="round"
                     strokeLinecap="round"

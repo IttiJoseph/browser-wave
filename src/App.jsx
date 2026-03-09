@@ -8,12 +8,10 @@ import EnvelopePanel from './components/EnvelopePanel.jsx'
 import LFOPanel from './components/LFOPanel.jsx'
 import EffectsPanel from './components/EffectsPanel.jsx'
 import Oscilloscope from './components/Oscilloscope.jsx'
-import SignalFlowDiagram from './components/SignalFlowDiagram.jsx'
 import LearningSection from './components/LearningSection.jsx'
 import Footer from './components/Footer.jsx'
 
 export default function App() {
-  const [activePanel, setActivePanel] = useState(null)
   const [activePreset, setActivePreset] = useState(null)
 
   const {
@@ -54,7 +52,7 @@ export default function App() {
     <div className="min-h-screen bg-hw-bg text-hw-body">
       <main className="max-w-5xl mx-auto px-4 py-6">
 
-        {/* Row 1: Hero + Oscilloscope + Signal Flow */}
+        {/* Row 1: Hero + Oscilloscope */}
         <div className="grid grid-cols-3 gap-3 mb-3">
           {/* Hero */}
           <div className="bg-hw-panel border border-hw-border rounded-lg p-5 flex flex-col justify-center">
@@ -66,9 +64,9 @@ export default function App() {
             </p>
           </div>
 
-          <Oscilloscope getAnalyser={getAnalyser} />
-
-          <SignalFlowDiagram activePanel={activePanel} />
+          <div className="col-span-2">
+            <Oscilloscope getAnalyser={getAnalyser} />
+          </div>
         </div>
 
         {/* Row 2: Transport+Presets + Oscillator + Filter */}
@@ -88,11 +86,7 @@ export default function App() {
             onSelectPreset={(preset) => { loadPreset(preset); setActivePreset(preset.id) }}
           />
 
-          <div
-            className="h-full"
-            onPointerEnter={() => setActivePanel('osc')}
-            onPointerLeave={() => setActivePanel(null)}
-          >
+          <div className="h-full">
             <OscillatorPanel
               params={params}
               onWaveform={setWaveform}
@@ -101,11 +95,7 @@ export default function App() {
             />
           </div>
 
-          <div
-            className="h-full"
-            onPointerEnter={() => setActivePanel('filter')}
-            onPointerLeave={() => setActivePanel(null)}
-          >
+          <div className="h-full">
             <FilterPanel
               params={params}
               onFilterType={setFilterType}
@@ -117,10 +107,7 @@ export default function App() {
 
         {/* Row 3: Envelope + LFO + Effects */}
         <div className="grid grid-cols-3 gap-3 mb-3">
-          <div
-            onPointerEnter={() => setActivePanel('env')}
-            onPointerLeave={() => setActivePanel(null)}
-          >
+          <div>
             <EnvelopePanel
               params={params}
               onAttack={setAttack}
@@ -130,10 +117,7 @@ export default function App() {
             />
           </div>
 
-          <div
-            onPointerEnter={() => setActivePanel('lfo')}
-            onPointerLeave={() => setActivePanel(null)}
-          >
+          <div>
             <LFOPanel
               params={params}
               onLFOWaveform={setLFOWaveform}
@@ -143,10 +127,7 @@ export default function App() {
             />
           </div>
 
-          <div
-            onPointerEnter={() => setActivePanel('fx')}
-            onPointerLeave={() => setActivePanel(null)}
-          >
+          <div>
             <EffectsPanel
               params={params}
               onReverbMix={setReverbMix}

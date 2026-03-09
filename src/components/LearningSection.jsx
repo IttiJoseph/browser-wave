@@ -4,6 +4,7 @@
  * Covers synthesis basics in signal-chain order with inline SVG diagrams.
  * Accent colors match the corresponding synth panels above.
  */
+import SignalFlowDiagram from './SignalFlowDiagram.jsx'
 
 function SectionHeader({ color, title }) {
   return (
@@ -231,9 +232,10 @@ export default function LearningSection() {
         <p className="text-sm font-sans text-hw-body leading-relaxed mb-2">
           Sound is air vibrating. A synthesizer creates that vibration from scratch — no strings, no reeds, just math.
         </p>
-        <p className="text-sm font-sans text-hw-body leading-relaxed">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-4">
           An analog synth works by generating a raw waveform and then routing it through a chain of shapers — filter, envelope, effects — until it sounds like something interesting. Everything you heard above followed that exact path.
         </p>
+        <SignalFlowDiagram />
       </section>
 
       {/* Waveforms */}
