@@ -5,6 +5,8 @@
  * natural — equal slider travel = equal musical intervals.
  */
 
+import Tooltip from './Tooltip.jsx'
+
 // Log scale helpers: 20–2000 Hz
 const freqToSlider = (hz) => (Math.log(hz / 20) / Math.log(100)) * 100
 const sliderToFreq = (val) => Math.round(20 * Math.pow(100, val / 100))
@@ -32,9 +34,10 @@ export default function OscillatorPanel({ params, onWaveform, onFrequency, onAmp
 
       {/* Waveform selector */}
       <div className="mb-6">
-        <label className="block text-xs font-mono text-stone-500 mb-2 tracking-wider uppercase">
-          Waveform
-        </label>
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Waveform</span>
+          <Tooltip text="The shape of the sound wave. Sine is pure and smooth, square is buzzy and hollow, sawtooth is bright and cutting." />
+        </div>
         <div className="flex rounded overflow-hidden border border-stone-700">
           {WAVEFORMS.map(({ value, label }) => (
             <button
@@ -55,9 +58,10 @@ export default function OscillatorPanel({ params, onWaveform, onFrequency, onAmp
       {/* Frequency slider */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Frequency
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Frequency</span>
+            <Tooltip text="The pitch of the oscillator in Hz. 440 Hz is concert A." />
+          </div>
           <span className="text-sm font-mono text-amber-400 tabular-nums">
             {fmtHz(frequency)}
           </span>
@@ -79,9 +83,10 @@ export default function OscillatorPanel({ params, onWaveform, onFrequency, onAmp
       {/* Amplitude slider */}
       <div>
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Amplitude
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Amplitude</span>
+            <Tooltip text="How loud the oscillator is before it hits the filter and effects." />
+          </div>
           <span className="text-sm font-mono text-amber-400 tabular-nums">
             {Math.round(amplitude * 100)}%
           </span>

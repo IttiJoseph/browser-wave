@@ -5,6 +5,8 @@
  * All mix and feedback sliders are linear 0–1.
  */
 
+import Tooltip from './Tooltip.jsx'
+
 const fmtTime = (s) => s < 1 ? `${Math.round(s * 1000)}ms` : `${s.toFixed(2)}s`
 
 // Log scale for reverb decay: 0.1–10s (factor of 100)
@@ -40,7 +42,10 @@ export default function EffectsPanel({
       {/* Reverb Mix */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-600 tracking-wider uppercase">Mix</label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-600 tracking-wider uppercase">Mix</span>
+            <Tooltip text="How much reverb (room ambience) is blended into the signal." />
+          </div>
           <span className="text-sm font-mono text-rose-400 tabular-nums">
             {Math.round(reverbMix * 100)}%
           </span>
@@ -62,7 +67,10 @@ export default function EffectsPanel({
       {/* Reverb Decay */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-600 tracking-wider uppercase">Decay</label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-600 tracking-wider uppercase">Decay</span>
+            <Tooltip text="How long the reverb tail rings out — like the size of the room." />
+          </div>
           <span className="text-sm font-mono text-rose-400 tabular-nums">
             {fmtTime(reverbDecay)}
           </span>
@@ -90,7 +98,10 @@ export default function EffectsPanel({
       {/* Delay Mix */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-600 tracking-wider uppercase">Mix</label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-600 tracking-wider uppercase">Mix</span>
+            <Tooltip text="How much of the echo effect is blended in." />
+          </div>
           <span className="text-sm font-mono text-rose-400 tabular-nums">
             {Math.round(delayMix * 100)}%
           </span>
@@ -112,7 +123,10 @@ export default function EffectsPanel({
       {/* Delay Time */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-600 tracking-wider uppercase">Time</label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-600 tracking-wider uppercase">Time</span>
+            <Tooltip text="The gap between the original signal and each echo repeat." />
+          </div>
           <span className="text-sm font-mono text-rose-400 tabular-nums">
             {fmtTime(delayTime)}
           </span>
@@ -134,7 +148,10 @@ export default function EffectsPanel({
       {/* Delay Feedback */}
       <div>
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-600 tracking-wider uppercase">Feedback</label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-600 tracking-wider uppercase">Feedback</span>
+            <Tooltip text="How many times the echo repeats before it fades. High values = long echo trail." />
+          </div>
           <span className="text-sm font-mono text-rose-400 tabular-nums">
             {Math.round(delayFeedback * 100)}%
           </span>

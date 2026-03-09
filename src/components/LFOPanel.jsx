@@ -6,6 +6,8 @@
  * Target selects which audio parameter the LFO modulates.
  */
 
+import Tooltip from './Tooltip.jsx'
+
 // Log scale for rate: 0.1–20 Hz (factor of 200)
 const rateToSlider = (hz) => (Math.log(hz / 0.1) / Math.log(200)) * 100
 const sliderToRate = (v) => parseFloat((0.1 * Math.pow(200, v / 100)).toFixed(2))
@@ -38,9 +40,10 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
 
       {/* Waveform selector */}
       <div className="mb-6">
-        <label className="block text-xs font-mono text-stone-500 mb-2 tracking-wider uppercase">
-          Waveform
-        </label>
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Waveform</span>
+          <Tooltip text="The shape of the LFO's modulation cycle. Sine = smooth sweep, square = on/off gate, triangle = linear ramp, sawtooth = one-sided ramp." />
+        </div>
         <div className="flex rounded overflow-hidden border border-stone-700">
           {LFO_WAVEFORMS.map(({ value, label }) => (
             <button
@@ -61,9 +64,10 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
       {/* Rate slider */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Rate
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Rate</span>
+            <Tooltip text="How fast the LFO oscillates, in cycles per second (Hz)." />
+          </div>
           <span className="text-sm font-mono text-violet-400 tabular-nums">
             {lfoRate.toFixed(2)} Hz
           </span>
@@ -85,9 +89,10 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
       {/* Depth slider */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Depth
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Depth</span>
+            <Tooltip text="How much the LFO affects the target. 0 = off, 1 = full modulation range." />
+          </div>
           <span className="text-sm font-mono text-violet-400 tabular-nums">
             {Math.round(lfoDepth * 100)}%
           </span>
@@ -108,9 +113,10 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
 
       {/* Target selector */}
       <div>
-        <label className="block text-xs font-mono text-stone-500 mb-2 tracking-wider uppercase">
-          Target
-        </label>
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Target</span>
+          <Tooltip text="Which parameter the LFO modulates — filter cutoff, oscillator pitch, or volume." />
+        </div>
         <div className="flex rounded overflow-hidden border border-stone-700">
           {LFO_TARGETS.map(({ value, label }) => (
             <button

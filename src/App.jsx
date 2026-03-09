@@ -10,6 +10,7 @@ import LFOPanel from './components/LFOPanel.jsx'
 import EffectsPanel from './components/EffectsPanel.jsx'
 import Oscilloscope from './components/Oscilloscope.jsx'
 import SignalFlowDiagram from './components/SignalFlowDiagram.jsx'
+import LearningSection from './components/LearningSection.jsx'
 
 export default function App() {
   const [activePanel, setActivePanel] = useState(null)
@@ -138,6 +139,9 @@ export default function App() {
           />
         </div>
       </main>
+
+      <div className="border-t border-stone-800" />
+      <LearningSection />
     </div>
   )
 }

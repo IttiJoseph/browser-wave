@@ -6,6 +6,8 @@
  * travel. Sustain is linear 0–1. The SVG preview reflects changes instantly.
  */
 
+import Tooltip from './Tooltip.jsx'
+
 // Log scale helpers for time parameters
 const timeToSlider = (s, min, max) => (Math.log(s / min) / Math.log(max / min)) * 100
 const sliderToTime = (v, min, max) =>
@@ -75,9 +77,10 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       {/* Attack */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Attack
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Attack</span>
+            <Tooltip text="How long it takes for the note to reach full volume after you trigger it." />
+          </div>
           <span className="text-sm font-mono text-emerald-400 tabular-nums">
             {fmtTime(attack)}
           </span>
@@ -99,9 +102,10 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       {/* Decay */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Decay
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Decay</span>
+            <Tooltip text="How quickly the volume drops from peak down to the sustain level." />
+          </div>
           <span className="text-sm font-mono text-emerald-400 tabular-nums">
             {fmtTime(decay)}
           </span>
@@ -123,9 +127,10 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       {/* Sustain */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Sustain
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Sustain</span>
+            <Tooltip text="The volume level held while the note is held. (Not a time — it's a level.)" />
+          </div>
           <span className="text-sm font-mono text-emerald-400 tabular-nums">
             {Math.round(sustain * 100)}%
           </span>
@@ -147,9 +152,10 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       {/* Release */}
       <div>
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Release
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Release</span>
+            <Tooltip text="How long the sound takes to fade out after the note is released." />
+          </div>
           <span className="text-sm font-mono text-emerald-400 tabular-nums">
             {fmtTime(release)}
           </span>

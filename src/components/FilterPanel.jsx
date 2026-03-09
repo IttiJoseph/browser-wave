@@ -5,6 +5,8 @@
  * Resonance is linear (0–1), displayed as a percentage.
  */
 
+import Tooltip from './Tooltip.jsx'
+
 // Log scale helpers: 20–20000 Hz (factor of 1000)
 const cutoffToSlider = (hz) => (Math.log(hz / 20) / Math.log(1000)) * 100
 const sliderToCutoff = (val) => Math.round(20 * Math.pow(1000, val / 100))
@@ -32,9 +34,10 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
 
       {/* Filter type selector */}
       <div className="mb-6">
-        <label className="block text-xs font-mono text-stone-500 mb-2 tracking-wider uppercase">
-          Type
-        </label>
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Type</span>
+          <Tooltip text="Low-pass lets bass through and cuts treble. High-pass does the opposite. Band-pass lets a narrow band through." />
+        </div>
         <div className="flex rounded overflow-hidden border border-stone-700">
           {FILTER_TYPES.map(({ value, label }) => (
             <button
@@ -55,9 +58,10 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
       {/* Cutoff slider */}
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Cutoff
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Cutoff</span>
+            <Tooltip text="The frequency where the filter starts cutting. Lower = darker, higher = brighter." />
+          </div>
           <span className="text-sm font-mono text-sky-400 tabular-nums">
             {fmtHz(filterCutoff)}
           </span>
@@ -80,9 +84,10 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
       {/* Resonance slider */}
       <div>
         <div className="flex items-baseline justify-between mb-2">
-          <label className="text-xs font-mono text-stone-500 tracking-wider uppercase">
-            Resonance
-          </label>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Resonance</span>
+            <Tooltip text="Boosts frequencies right at the cutoff point. Crank it up for that classic 'wah' sound." />
+          </div>
           <span className="text-sm font-mono text-sky-400 tabular-nums">
             {Math.round(filterResonance * 100)}%
           </span>
