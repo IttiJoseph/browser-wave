@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+/* ── Custom color + font tokens (Tailwind v4 @theme) ───────────────────────── */
+@theme {
+  --color-hw-bg:      #f4efe8;
+  --color-hw-panel:   #ede6db;
+  --color-hw-raised:  #e5ddd0;
+  --color-hw-border:  #cdc2b4;
+  --color-hw-divider: #d9d1c5;
+  --color-hw-muted:   #9e8f84;
+  --color-hw-label:   #7a6d65;
+  --color-hw-body:    #4a3d38;
+  --color-hw-strong:  #2a1f1c;
+  --color-hw-ink:     #140e0a;
+
+  --font-family-mono: 'Space Mono', 'Courier New', monospace;
+  --font-family-sans: 'Inter', system-ui, sans-serif;
+}
+
 /* ── Custom slider styling ──────────────────────────────────────────────────── */
 input[type='range'] {
   -webkit-appearance: none;
@@ -10,39 +27,71 @@ input[type='range'] {
 }
 
 input[type='range']::-webkit-slider-runnable-track {
-  height: 4px;
-  background: #2a2a2a;
-  border-radius: 2px;
+  height: 6px;
+  background: #c4b8ab;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(0,0,0,0.1);
 }
 
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #d97706;
-  margin-top: -6px;
-  transition: background 0.15s, transform 0.1s;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #3a3330;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 4px,
+    rgba(255,255,255,0.15) 4px,
+    rgba(255,255,255,0.15) 5px
+  );
+  margin-top: -7px;
+  box-shadow:
+    0 2px 5px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
+  transition: background-color 0.15s, transform 0.1s;
 }
 
 input[type='range']::-webkit-slider-thumb:hover {
-  background: #f59e0b;
-  transform: scale(1.2);
+  background-color: #4a4340;
+  transform: scale(1.05);
+}
+
+input[type='range']::-webkit-slider-thumb:active {
+  transform: scale(0.97);
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    inset 0 -1px 0 rgba(0,0,0,0.35);
 }
 
 input[type='range']::-moz-range-track {
-  height: 4px;
-  background: #2a2a2a;
-  border-radius: 2px;
+  height: 6px;
+  background: #c4b8ab;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(0,0,0,0.1);
 }
 
 input[type='range']::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #d97706;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #3a3330;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 4px,
+    rgba(255,255,255,0.15) 4px,
+    rgba(255,255,255,0.15) 5px
+  );
   border: none;
+  box-shadow:
+    0 2px 5px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 -1px 0 rgba(0,0,0,0.3);
 }
 
 /* ── Body reset ─────────────────────────────────────────────────────────────── */
@@ -51,8 +100,8 @@ body {
   padding: 0;
   display: block;
   min-height: 100vh;
-  background: #0a0a0a;
-  color: #e5e5e5;
-  font-family: system-ui, sans-serif;
+  background: var(--color-hw-bg);
+  color: var(--color-hw-body);
+  font-family: var(--font-family-mono);
   -webkit-font-smoothing: antialiased;
 }

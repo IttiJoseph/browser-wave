@@ -68,10 +68,10 @@ export default function Oscilloscope({ getAnalyser }) {
   }, [getAnalyser])
 
   return (
-    <section className="bg-stone-900 border border-stone-800 rounded-lg p-5">
+    <section className="bg-hw-panel border border-hw-border rounded-lg p-5">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-1.5 h-4 rounded-sm bg-green-500" />
-        <h2 className="text-xs font-mono font-bold tracking-widest text-stone-400 uppercase">
+        <h2 className="text-xs font-mono font-bold tracking-widest text-hw-label uppercase">
           Oscilloscope
         </h2>
       </div>

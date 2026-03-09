@@ -211,25 +211,27 @@ function EffectsDiagram() {
 
 export default function LearningSection() {
   return (
-    <article className="max-w-2xl mx-auto px-4 py-10 flex flex-col gap-10">
+    <article className="max-w-5xl mx-auto px-4 py-10">
 
-      {/* Header */}
-      <header>
-        <h2 className="text-lg font-mono font-bold text-stone-200 tracking-widest uppercase mb-1">
+      {/* Header — full width */}
+      <header className="mb-8">
+        <h2 className="text-lg font-mono font-bold text-hw-strong tracking-widest uppercase mb-1">
           How Synthesis Works
         </h2>
-        <p className="text-xs font-mono text-stone-500">
+        <p className="text-xs font-sans text-hw-muted">
           A plain-English guide to what you just played with.
         </p>
       </header>
 
+      <div className="grid grid-cols-2 gap-x-12 gap-y-10">
+
       {/* What is synthesis? */}
       <section>
-        <SectionHeader color="bg-stone-500" title="What is synthesis?" />
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-2">
+        <SectionHeader color="bg-hw-body" title="What is synthesis?" />
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-2">
           Sound is air vibrating. A synthesizer creates that vibration from scratch — no strings, no reeds, just math.
         </p>
-        <p className="text-sm font-mono text-stone-400 leading-relaxed">
+        <p className="text-sm font-sans text-hw-body leading-relaxed">
           An analog synth works by generating a raw waveform and then routing it through a chain of shapers — filter, envelope, effects — until it sounds like something interesting. Everything you heard above followed that exact path.
         </p>
       </section>
@@ -237,10 +239,10 @@ export default function LearningSection() {
       {/* Waveforms */}
       <section>
         <SectionHeader color="bg-amber-500" title="Waveforms — where sound starts" />
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-2">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-2">
           Everything starts with a waveform — the shape of the repeating vibration. Sine waves are the purest sound, a single frequency with nothing extra. Square waves add hollow overtones that give you that classic video-game buzz. Sawtooth waves are the richest — packed with harmonics, they're the workhorse of dance music and leads.
         </p>
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-4">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-4">
           The more harmonics a wave has, the more texture it has. A sine is a solo voice; a sawtooth is a whole choir.
         </p>
         <WaveformDiagram />
@@ -249,10 +251,10 @@ export default function LearningSection() {
       {/* Filters */}
       <section>
         <SectionHeader color="bg-sky-500" title="Filter — sculpting the tone" />
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-2">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-2">
           A filter removes certain frequencies. Low-pass (LP) cuts everything above the cutoff — turn it down and the sound gets darker, like a blanket over a speaker. High-pass (HP) strips out the bass. Band-pass (BP) lets only a narrow slice through.
         </p>
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-4">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-4">
           Resonance boosts the frequencies right at the cutoff edge. Crank it up and you get that distinctive wah effect — the sound seems to talk.
         </p>
         <FilterDiagram />
@@ -261,14 +263,14 @@ export default function LearningSection() {
       {/* Envelope */}
       <section>
         <SectionHeader color="bg-emerald-500" title="Envelope (ADSR) — shaping sound over time" />
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-2">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-2">
           The envelope explains why a piano and an organ sound different at the same note. It's the shape of the volume over time — how quickly it swells, and how long it fades.
         </p>
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-4">
-          <span className="text-emerald-400">Attack</span> — time to rise to full volume.{' '}
-          <span className="text-emerald-400">Decay</span> — how quickly it drops to the sustain level.{' '}
-          <span className="text-emerald-400">Sustain</span> — the level held while the note is playing (not a time, a level).{' '}
-          <span className="text-emerald-400">Release</span> — how long the tail fades after you let go.
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-4">
+          <span className="text-emerald-700">Attack</span> — time to rise to full volume.{' '}
+          <span className="text-emerald-700">Decay</span> — how quickly it drops to the sustain level.{' '}
+          <span className="text-emerald-700">Sustain</span> — the level held while the note is playing (not a time, a level).{' '}
+          <span className="text-emerald-700">Release</span> — how long the tail fades after you let go.
         </p>
         <ADSRDiagram />
       </section>
@@ -276,10 +278,10 @@ export default function LearningSection() {
       {/* LFO */}
       <section>
         <SectionHeader color="bg-violet-500" title="LFO — adding movement" />
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-2">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-2">
           LFO stands for Low Frequency Oscillator. It's a wave that moves too slowly to hear as pitch, but fast enough to wiggle a parameter back and forth automatically. Think of it as a knob that turns itself.
         </p>
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-4">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-4">
           Aim it at the filter and you get a wah sweep. Aim it at pitch and you get vibrato. Aim it at volume and you get tremolo. Rate controls how fast it wiggles; depth controls how much.
         </p>
         <LFODiagram />
@@ -288,15 +290,16 @@ export default function LearningSection() {
       {/* Effects */}
       <section>
         <SectionHeader color="bg-rose-500" title="Effects — adding space" />
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-2">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-2">
           Reverb simulates a room. A short decay sounds like a bathroom; a long decay sounds like a cathedral. Your ears use this kind of spatial information all the time — reverb makes a sound feel like it exists somewhere.
         </p>
-        <p className="text-sm font-mono text-stone-400 leading-relaxed mb-4">
+        <p className="text-sm font-sans text-hw-body leading-relaxed mb-4">
           Delay creates repeating echoes. The delay time is the gap between repeats; feedback controls how many times the echo bounces before it disappears. Used lightly, effects add depth. Stacked heavily, they turn a simple tone into an evolving soundscape.
         </p>
         <EffectsDiagram />
       </section>
 
+      </div>
     </article>
   )
 }

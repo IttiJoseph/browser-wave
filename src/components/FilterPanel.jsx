@@ -23,11 +23,11 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
   const { filterType, filterCutoff, filterResonance } = params
 
   return (
-    <section className="bg-stone-900 border border-stone-800 rounded-lg p-5">
+    <section className="bg-hw-panel border border-hw-border rounded-lg p-5 h-full">
       {/* Panel header */}
       <div className="flex items-center gap-2 mb-5">
         <div className="w-1.5 h-4 rounded-sm bg-sky-500" />
-        <h2 className="text-xs font-mono font-bold tracking-widest text-stone-400 uppercase">
+        <h2 className="text-xs font-mono font-bold tracking-widest text-hw-label uppercase">
           Filter
         </h2>
       </div>
@@ -35,10 +35,10 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
       {/* Filter type selector */}
       <div className="mb-6">
         <div className="flex items-center gap-1.5 mb-2">
-          <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Type</span>
+          <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Type</span>
           <Tooltip text="Low-pass lets bass through and cuts treble. High-pass does the opposite. Band-pass lets a narrow band through." />
         </div>
-        <div className="flex rounded overflow-hidden border border-stone-700">
+        <div className="flex rounded overflow-hidden border border-hw-border">
           {FILTER_TYPES.map(({ value, label }) => (
             <button
               key={value}
@@ -46,7 +46,7 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
               className={`flex-1 py-2 text-xs font-mono tracking-wider uppercase transition-colors duration-100
                 ${filterType === value
                   ? 'bg-sky-600 text-white font-bold'
-                  : 'bg-stone-800 text-stone-400 hover:bg-stone-700 hover:text-stone-200'
+                  : 'bg-hw-raised text-hw-body hover:bg-hw-border hover:text-hw-strong'
                 }`}
             >
               {label}
@@ -59,10 +59,10 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Cutoff</span>
+            <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Cutoff</span>
             <Tooltip text="The frequency where the filter starts cutting. Lower = darker, higher = brighter." />
           </div>
-          <span className="text-sm font-mono text-sky-400 tabular-nums">
+          <span className="text-sm font-mono text-sky-600 tabular-nums">
             {fmtHz(filterCutoff)}
           </span>
         </div>
@@ -73,9 +73,8 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
           step="0.1"
           value={cutoffToSlider(filterCutoff)}
           onChange={(e) => onCutoff(sliderToCutoff(parseFloat(e.target.value)))}
-          style={{ '--thumb-color': '#0ea5e9' }}
         />
-        <div className="flex justify-between mt-1 text-xs font-mono text-stone-600">
+        <div className="flex justify-between mt-1 text-xs font-mono text-hw-muted">
           <span>20 Hz</span>
           <span>20 kHz</span>
         </div>
@@ -85,10 +84,10 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
       <div>
         <div className="flex items-baseline justify-between mb-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Resonance</span>
+            <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Resonance</span>
             <Tooltip text="Boosts frequencies right at the cutoff point. Crank it up for that classic 'wah' sound." />
           </div>
-          <span className="text-sm font-mono text-sky-400 tabular-nums">
+          <span className="text-sm font-mono text-sky-600 tabular-nums">
             {Math.round(filterResonance * 100)}%
           </span>
         </div>
@@ -100,7 +99,7 @@ export default function FilterPanel({ params, onFilterType, onCutoff, onResonanc
           value={filterResonance}
           onChange={(e) => onResonance(parseFloat(e.target.value))}
         />
-        <div className="flex justify-between mt-1 text-xs font-mono text-stone-600">
+        <div className="flex justify-between mt-1 text-xs font-mono text-hw-muted">
           <span>Flat</span>
           <span>Squelchy</span>
         </div>

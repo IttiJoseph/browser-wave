@@ -47,11 +47,11 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
   const points = envelopePoints(attack, decay, sustain, release)
 
   return (
-    <section className="bg-stone-900 border border-stone-800 rounded-lg p-5">
+    <section className="bg-hw-panel border border-hw-border rounded-lg p-5">
       {/* Panel header */}
       <div className="flex items-center gap-2 mb-5">
         <div className="w-1.5 h-4 rounded-sm bg-emerald-500" />
-        <h2 className="text-xs font-mono font-bold tracking-widest text-stone-400 uppercase">
+        <h2 className="text-xs font-mono font-bold tracking-widest text-hw-label uppercase">
           Envelope
         </h2>
       </div>
@@ -60,7 +60,7 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       <div className="mb-6">
         <svg
           viewBox="0 0 200 56"
-          className="w-full h-14 rounded bg-stone-950 border border-stone-800"
+          className="w-full h-14 rounded bg-stone-950 border border-hw-border"
           preserveAspectRatio="none"
         >
           <polyline
@@ -78,10 +78,10 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Attack</span>
+            <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Attack</span>
             <Tooltip text="How long it takes for the note to reach full volume after you trigger it." />
           </div>
-          <span className="text-sm font-mono text-emerald-400 tabular-nums">
+          <span className="text-sm font-mono text-emerald-700 tabular-nums">
             {fmtTime(attack)}
           </span>
         </div>
@@ -93,7 +93,7 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
           value={timeToSlider(attack, 0.001, 2)}
           onChange={(e) => onAttack(sliderToTime(parseFloat(e.target.value), 0.001, 2))}
         />
-        <div className="flex justify-between mt-1 text-xs font-mono text-stone-600">
+        <div className="flex justify-between mt-1 text-xs font-mono text-hw-muted">
           <span>1ms</span>
           <span>2s</span>
         </div>
@@ -103,10 +103,10 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Decay</span>
+            <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Decay</span>
             <Tooltip text="How quickly the volume drops from peak down to the sustain level." />
           </div>
-          <span className="text-sm font-mono text-emerald-400 tabular-nums">
+          <span className="text-sm font-mono text-emerald-700 tabular-nums">
             {fmtTime(decay)}
           </span>
         </div>
@@ -118,7 +118,7 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
           value={timeToSlider(decay, 0.001, 2)}
           onChange={(e) => onDecay(sliderToTime(parseFloat(e.target.value), 0.001, 2))}
         />
-        <div className="flex justify-between mt-1 text-xs font-mono text-stone-600">
+        <div className="flex justify-between mt-1 text-xs font-mono text-hw-muted">
           <span>1ms</span>
           <span>2s</span>
         </div>
@@ -128,10 +128,10 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       <div className="mb-6">
         <div className="flex items-baseline justify-between mb-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Sustain</span>
+            <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Sustain</span>
             <Tooltip text="The volume level held while the note is held. (Not a time — it's a level.)" />
           </div>
-          <span className="text-sm font-mono text-emerald-400 tabular-nums">
+          <span className="text-sm font-mono text-emerald-700 tabular-nums">
             {Math.round(sustain * 100)}%
           </span>
         </div>
@@ -143,7 +143,7 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
           value={sustain}
           onChange={(e) => onSustain(parseFloat(e.target.value))}
         />
-        <div className="flex justify-between mt-1 text-xs font-mono text-stone-600">
+        <div className="flex justify-between mt-1 text-xs font-mono text-hw-muted">
           <span>0%</span>
           <span>100%</span>
         </div>
@@ -153,10 +153,10 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
       <div>
         <div className="flex items-baseline justify-between mb-2">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono text-stone-500 tracking-wider uppercase">Release</span>
+            <span className="text-xs font-mono text-hw-label tracking-wider uppercase">Release</span>
             <Tooltip text="How long the sound takes to fade out after the note is released." />
           </div>
-          <span className="text-sm font-mono text-emerald-400 tabular-nums">
+          <span className="text-sm font-mono text-emerald-700 tabular-nums">
             {fmtTime(release)}
           </span>
         </div>
@@ -168,7 +168,7 @@ export default function EnvelopePanel({ params, onAttack, onDecay, onSustain, on
           value={timeToSlider(release, 0.001, 5)}
           onChange={(e) => onRelease(sliderToTime(parseFloat(e.target.value), 0.001, 5))}
         />
-        <div className="flex justify-between mt-1 text-xs font-mono text-stone-600">
+        <div className="flex justify-between mt-1 text-xs font-mono text-hw-muted">
           <span>1ms</span>
           <span>5s</span>
         </div>

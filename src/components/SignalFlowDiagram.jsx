@@ -28,10 +28,10 @@ const LFO_CENTER_X = 188 + BOX_W / 2
 
 export default function SignalFlowDiagram({ activePanel }) {
   return (
-    <section className="bg-stone-900 border border-stone-800 rounded-lg p-5">
+    <section className="bg-hw-panel border border-hw-border rounded-lg p-5">
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-1.5 h-4 rounded-sm bg-stone-400" />
-        <h2 className="text-xs font-mono font-bold tracking-widest text-stone-400 uppercase">
+        <div className="w-1.5 h-4 rounded-sm bg-hw-body" />
+        <h2 className="text-xs font-mono font-bold tracking-widest text-hw-label uppercase">
           Signal Flow
         </h2>
       </div>
@@ -82,8 +82,8 @@ export default function SignalFlowDiagram({ activePanel }) {
               <rect
                 x={x} y={y} width={BOX_W} height={BOX_H}
                 rx="4"
-                fill={isActive ? color : '#171717'}
-                stroke={isActive ? color : '#292524'}
+                fill={isActive ? color : '#e5ddd0'}
+                stroke={isActive ? color : '#cdc2b4'}
                 strokeWidth="1.5"
               />
               <text
@@ -94,7 +94,7 @@ export default function SignalFlowDiagram({ activePanel }) {
                 fontFamily="monospace"
                 fontWeight="bold"
                 letterSpacing="0.08em"
-                fill={isActive ? '#ffffff' : '#57534e'}
+                fill={isActive ? '#ffffff' : '#7a6d65'}
               >
                 {label}
               </text>
