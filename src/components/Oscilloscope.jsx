@@ -140,7 +140,7 @@ export default function Oscilloscope({ getAnalyser }) {
         <canvas
           ref={canvasRef}
           className="w-full block"
-          style={{ height: '108px', display: 'block' }}
+          style={{ height: '160px', display: 'block' }}
         />
       </div>
     </section>

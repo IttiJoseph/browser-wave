@@ -20,189 +20,231 @@ function SectionHeader({ color, title }) {
 // ─── SVG Diagrams ──────────────────────────────────────────────────────────────
 
 function WaveformDiagram() {
-  // Three waveforms side by side: sine, square, sawtooth
-  const w = 60, h = 40, pad = 8
-  const cy = h / 2
-  const amp = 14
+  const W = 210, H = 96, pad = 10
+  const labelH = 18
+  const drawH = H - labelH
+  const cy = drawH * 0.5, amp = 30
+  const colW = (W - pad * 2) / 3
 
-  // Sine: one full cycle
-  const sinePoints = Array.from({ length: 61 }, (_, i) => {
-    const x = pad + (i / 60) * (w - pad * 2)
+  // Sine: closed path tracing full cycle above AND below centerline
+  const sineForward = Array.from({ length: 61 }, (_, i) => {
+    const x = pad + (i / 60) * colW
     const y = cy - Math.sin((i / 60) * Math.PI * 2) * amp
     return `${x.toFixed(1)},${y.toFixed(1)}`
-  }).join(' ')
+  })
+  const sineFill = [
+    `M ${pad},${cy}`,
+    ...sineForward.map(p => `L ${p}`),
+    `Z`,
+  ].join(' ')
 
-  // Square
+  // Square: connected step-wave polygon (reads as square wave icon)
+  const sqX = pad + colW + 4, sqW = colW - 8
+  const sqMid = sqX + sqW / 2
   const squarePts = [
-    `${pad},${cy}`,
-    `${pad},${cy - amp}`,
-    `${w / 2},${cy - amp}`,
-    `${w / 2},${cy + amp}`,
-    `${w - pad},${cy + amp}`,
-    `${w - pad},${cy}`,
+    `${sqX},${cy}`,
+    `${sqX},${cy - amp}`,
+    `${sqMid},${cy - amp}`,
+    `${sqMid},${cy + amp}`,
+    `${sqX + sqW},${cy + amp}`,
+    `${sqX + sqW},${cy}`,
   ].join(' ')
 
-  // Sawtooth
-  const sawPts = [
-    `${pad},${cy + amp}`,
-    `${w - pad},${cy - amp}`,
-    `${w - pad},${cy + amp}`,
-  ].join(' ')
-
-  const diagrams = [
-    { label: 'Sine', pts: sinePoints, type: 'poly', color: '#f59e0b' },
-    { label: 'Square', pts: squarePts, type: 'poly', color: '#f59e0b' },
-    { label: 'Sawtooth', pts: sawPts, type: 'poly', color: '#f59e0b' },
-  ]
+  // Sawtooth: filled triangle — left edge at top, right edge descends, baseline closes
+  const sawX = pad + colW * 2 + 4, sawW = colW - 8
 
   return (
-    <div className="rounded bg-stone-950 border border-stone-800 p-3">
-      <div className="flex gap-2">
-        {diagrams.map(({ label, pts, color }) => (
-          <div key={label} className="flex-1 flex flex-col items-center gap-1">
-            <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-10">
-              <line x1={pad} y1={cy} x2={w - pad} y2={cy} stroke="#44403c" strokeWidth="0.5" strokeDasharray="2,2" />
-              <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5"
-                strokeLinejoin="round" strokeLinecap="round" />
-            </svg>
-            <span className="text-[10px] font-mono text-stone-500">{label}</span>
-          </div>
-        ))}
-      </div>
+    <div className="rounded-lg overflow-hidden" style={{ background: '#000' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: '116px' }}>
+        {/* Sine — blue filled cycle */}
+        <path d={sineFill} fill="#38bdf8" />
+        <text x={pad + colW / 2} y={H - 4} textAnchor="middle" fontSize="11"
+          fontFamily="monospace" fontWeight="bold" fill="#38bdf8" letterSpacing="0.06em">SINE</text>
+
+        {/* Square — yellow step-wave polygon */}
+        <polygon points={squarePts} fill="#fbbf24" />
+        <text x={pad + colW + colW / 2} y={H - 4} textAnchor="middle" fontSize="11"
+          fontFamily="monospace" fontWeight="bold" fill="#fbbf24" letterSpacing="0.06em">SQUARE</text>
+
+        {/* Sawtooth — green filled triangle */}
+        <polygon points={`${sawX},${cy - amp} ${sawX + sawW},${cy + amp} ${sawX},${cy + amp}`}
+          fill="#4ade80" />
+        <text x={pad + colW * 2 + colW / 2} y={H - 4} textAnchor="middle" fontSize="11"
+          fontFamily="monospace" fontWeight="bold" fill="#4ade80" letterSpacing="0.06em">SAW</text>
+      </svg>
     </div>
   )
 }
 
 function FilterDiagram() {
-  // Frequency spectrum with LP/HP/BP zones shown as gradient fills + cutoff line
-  const W = 200, H = 56, pad = 8
-  const cutX = W * 0.45
+  const W = 210, H = 90, pad = 12
+  const cutX = W * 0.42
+  const baseY = H - 22
+
+  // Bell-curve-like hill path for frequency content
+  const hillPts = Array.from({ length: 61 }, (_, i) => {
+    const t = i / 60
+    const x = pad + t * (W - pad * 2)
+    const peakT = 0.15
+    const hillH = 44 * Math.exp(-Math.pow((t - peakT) * 3.5, 2))
+    return { x, y: baseY - hillH }
+  })
+
+  const passPath = [
+    `M ${pad},${baseY}`,
+    ...hillPts.filter(p => p.x <= cutX).map(p => `L ${p.x.toFixed(1)},${p.y.toFixed(1)}`),
+    `L ${cutX},${baseY} Z`,
+  ].join(' ')
+
+  const cutPath = [
+    `M ${cutX},${baseY}`,
+    ...hillPts.filter(p => p.x >= cutX).map(p => `L ${p.x.toFixed(1)},${p.y.toFixed(1)}`),
+    `L ${W - pad},${baseY} Z`,
+  ].join(' ')
 
   return (
-    <div className="rounded bg-stone-950 border border-stone-800 p-3">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-14">
-        {/* Filled spectrum bars (decreasing left to right to simulate freq content) */}
-        {Array.from({ length: 20 }, (_, i) => {
-          const x = pad + i * ((W - pad * 2) / 20)
-          const barH = 28 - Math.abs(i - 4) * 1.2
-          const passed = x < cutX - 2
-          return (
-            <rect
-              key={i}
-              x={x}
-              y={H - pad - barH}
-              width={(W - pad * 2) / 20 - 1}
-              height={barH}
-              fill={passed ? '#0ea5e9' : '#292524'}
-              rx="1"
-            />
-          )
-        })}
+    <div className="rounded-lg overflow-hidden" style={{ background: '#000' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: '110px' }}>
+        {/* Cut region */}
+        <path d={cutPath} fill="#1e3a4a" />
+        {/* Pass region */}
+        <path d={passPath} fill="#38bdf8" opacity="0.9" />
+        {/* Baseline */}
+        <line x1={pad} y1={baseY} x2={W - pad} y2={baseY} stroke="#334155" strokeWidth="1" />
         {/* Cutoff line */}
-        <line x1={cutX} y1={pad - 2} x2={cutX} y2={H - pad + 2} stroke="#0ea5e9" strokeWidth="1.5" strokeDasharray="3,2" />
+        <line x1={cutX} y1={pad} x2={cutX} y2={baseY} stroke="#fff" strokeWidth="2" strokeDasharray="4,3" />
         {/* Labels */}
-        <text x={pad + 2} y={H - 2} fontSize="7" fontFamily="monospace" fill="#57534e">Bass</text>
-        <text x={W - 30} y={H - 2} fontSize="7" fontFamily="monospace" fill="#57534e">Treble</text>
-        <text x={cutX + 3} y={pad + 6} fontSize="7" fontFamily="monospace" fill="#0ea5e9">Cutoff</text>
+        <text x={pad + 4} y={H - 6} fontSize="9" fontFamily="monospace" fontWeight="bold" fill="#38bdf8">PASS</text>
+        <text x={cutX + 5} y={pad + 12} fontSize="9" fontFamily="monospace" fontWeight="bold" fill="#fff">CUTOFF</text>
+        <text x={W - 38} y={H - 6} fontSize="9" fontFamily="monospace" fontWeight="bold" fill="#334155">CUT</text>
       </svg>
     </div>
   )
 }
 
 function ADSRDiagram() {
-  const W = 200, H = 56, pad = 8
-  const aX = pad + 28, dX = pad + 58, sX = pad + 128, rX = W - pad
-  const peakY = pad + 4, susY = H - pad - 14, botY = H - pad
+  const W = 210, H = 110
+  const botY = H - 18, peakY = 8, susY = botY - 42
+  const aX0 = 10, aX1 = 40
+  const dX1 = 72
+  const sX1 = 162
+  const rX1 = W - 10
 
-  const points = [
-    `${pad},${botY}`,
-    `${aX},${peakY}`,
-    `${dX},${susY}`,
-    `${sX},${susY}`,
-    `${rX},${botY}`,
-  ].join(' ')
-
-  const labels = [
-    { x: (pad + aX) / 2 - 4, y: peakY + 8, text: 'A' },
-    { x: (aX + dX) / 2 - 3, y: susY - 6, text: 'D' },
-    { x: (dX + sX) / 2 - 3, y: susY - 6, text: 'S' },
-    { x: (sX + rX) / 2 - 3, y: botY - 4, text: 'R' },
+  const phases = [
+    { color: '#3b82f6', label: 'A', lx: (aX0 + aX1) / 2,
+      d: `M ${aX0},${botY} L ${aX1},${peakY} L ${aX1},${botY} Z` },
+    { color: '#22c55e', label: 'D', lx: (aX1 + dX1) / 2,
+      d: `M ${aX1},${peakY} L ${dX1},${susY} L ${dX1},${botY} L ${aX1},${botY} Z` },
+    { color: '#f59e0b', label: 'S', lx: (dX1 + sX1) / 2,
+      d: `M ${dX1},${susY} L ${sX1},${susY} L ${sX1},${botY} L ${dX1},${botY} Z` },
+    { color: '#ef4444', label: 'R', lx: (sX1 + rX1) / 2,
+      d: `M ${sX1},${susY} L ${rX1},${botY} L ${sX1},${botY} Z` },
   ]
 
   return (
-    <div className="rounded bg-stone-950 border border-stone-800 p-3">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-14">
-        <polyline points={points} fill="none" stroke="#10b981" strokeWidth="1.5"
-          strokeLinejoin="round" strokeLinecap="round" />
-        {labels.map(({ x, y, text }) => (
-          <text key={text} x={x} y={y} fontSize="8" fontFamily="monospace" fill="#10b981">{text}</text>
+    <div className="rounded-lg overflow-hidden" style={{ background: '#000' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: '130px' }}>
+        {phases.map(({ color, label, lx, d }) => (
+          <g key={label}>
+            <path d={d} fill={color} />
+            <text x={lx} y={botY - 6} textAnchor="middle" fontSize="12"
+              fontFamily="monospace" fontWeight="bold" fill="#000">{label}</text>
+          </g>
         ))}
+        {/* White baseline */}
+        <line x1={aX0} y1={botY} x2={rX1} y2={botY} stroke="#fff" strokeWidth="2" />
       </svg>
     </div>
   )
 }
 
 function LFODiagram() {
-  const W = 200, H = 48, pad = 8
-  const cy = H / 2
-  const amp = 14
+  const W = 210, H = 100, pad = 12
+  const cy = H / 2 - 4, amp = 30
 
-  // Slow sine (1.5 cycles over the width)
-  const lfoPoints = Array.from({ length: 81 }, (_, i) => {
+  const wavePts = Array.from({ length: 81 }, (_, i) => {
     const x = pad + (i / 80) * (W - pad * 2)
-    const y = cy - Math.sin((i / 80) * Math.PI * 3) * amp
+    const y = cy - Math.sin((i / 80) * Math.PI * 4) * amp
     return `${x.toFixed(1)},${y.toFixed(1)}`
-  }).join(' ')
+  })
+
+  // Filled area under the wave — two passes (above/below cy)
+  const abovePath = [
+    `M ${pad},${cy}`,
+    ...wavePts.map(p => `L ${p}`),
+    `L ${W - pad},${cy} Z`,
+  ].join(' ')
+
+  const waveLine = wavePts.join(' ')
 
   return (
-    <div className="rounded bg-stone-950 border border-stone-800 p-3">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-12">
-        {/* Center line */}
-        <line x1={pad} y1={cy} x2={W - pad} y2={cy} stroke="#44403c" strokeWidth="0.5" strokeDasharray="3,2" />
-        {/* LFO wave */}
-        <polyline points={lfoPoints} fill="none" stroke="#7c3aed" strokeWidth="1.5"
+    <div className="rounded-lg overflow-hidden" style={{ background: '#000' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: '120px' }}>
+        {/* Filled wave area */}
+        <path d={abovePath} fill="#7c3aed" opacity="0.25" />
+        {/* Bound lines */}
+        <line x1={pad} y1={cy - amp} x2={W - pad} y2={cy - amp} stroke="#a78bfa" strokeWidth="1" strokeDasharray="4,3" opacity="0.5" />
+        <line x1={pad} y1={cy + amp} x2={W - pad} y2={cy + amp} stroke="#a78bfa" strokeWidth="1" strokeDasharray="4,3" opacity="0.5" />
+        {/* Wave */}
+        <polyline points={waveLine} fill="none" stroke="#a78bfa" strokeWidth="3.5"
           strokeLinejoin="round" strokeLinecap="round" />
-        {/* Arrows pointing up/down to show "modulating a parameter" */}
-        <text x={W - 52} y={cy - amp - 3} fontSize="7" fontFamily="monospace" fill="#7c3aed">filter up</text>
-        <text x={W - 58} y={cy + amp + 9} fontSize="7" fontFamily="monospace" fill="#7c3aed">filter down</text>
+        {/* Labels */}
+        <text x={pad + 2} y={cy - amp - 5} fontSize="9" fontFamily="monospace" fontWeight="bold" fill="#a78bfa">RATE →</text>
+        <text x={W - 56} y={cy - amp - 5} fontSize="9" fontFamily="monospace" fontWeight="bold" fill="#a78bfa">DEPTH</text>
+        <line x1={W - 16} y1={cy - amp + 2} x2={W - 16} y2={cy + amp - 2} stroke="#a78bfa" strokeWidth="1.5" markerEnd="url(#arrD)" markerStart="url(#arrU)" />
+        <defs>
+          <marker id="arrD" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+            <path d="M0,0 L4,2 L0,4 Z" fill="#a78bfa" />
+          </marker>
+          <marker id="arrU" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto-start-reverse">
+            <path d="M0,0 L4,2 L0,4 Z" fill="#a78bfa" />
+          </marker>
+        </defs>
       </svg>
     </div>
   )
 }
 
 function EffectsDiagram() {
-  const W = 200, H = 56, pad = 8
-  const midY = H / 2
+  const W = 210, H = 110, pad = 10
+  const row1Y = 14   // reverb row baseline
+  const row2Y = 62   // delay row baseline
+  const rowH = 38    // max bar height
 
-  // Dry: flat line
-  const dryY = midY - 12
-  // Wet: decaying echoes (3 pulses)
-  const wetY = midY + 12
+  // Reverb: impulse spike + decaying wash — 14 wider bars with slower decay
+  const reverbBars = Array.from({ length: 14 }, (_, i) => {
+    const x = pad + 22 + i * 12.5
+    const decay = Math.exp(-i * 0.12)
+    return { x, h: rowH * decay }
+  })
 
-  const echoPoints = [
-    `${pad},${wetY}`,
-    `${pad + 10},${wetY - 14}`,
-    `${pad + 20},${wetY}`,
-    `${pad + 36},${wetY - 9}`,
-    `${pad + 46},${wetY}`,
-    `${pad + 62},${wetY - 5}`,
-    `${pad + 72},${wetY}`,
-    `${W - pad},${wetY}`,
-  ].join(' ')
+  // Delay: 4 discrete spikes, wider bars
+  const delaySpikes = [0, 1, 2, 3].map(i => ({
+    x: pad + 10 + i * 46,
+    h: rowH * Math.pow(0.65, i),
+  }))
 
   return (
-    <div className="rounded bg-stone-950 border border-stone-800 p-3">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-14">
-        {/* Dry signal */}
-        <line x1={pad} y1={dryY} x2={pad + 30} y2={dryY} stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1={pad + 30} y1={dryY - 10} x2={pad + 30} y2={dryY + 10} stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1={pad + 30} y1={dryY} x2={W - pad} y2={dryY} stroke="#f43f5e" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="2,2" />
-        <text x={pad + 2} y={dryY - 4} fontSize="7" fontFamily="monospace" fill="#f43f5e">Dry</text>
+    <div className="rounded-lg overflow-hidden" style={{ background: '#000' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: '130px' }}>
+        {/* ── Reverb row ── */}
+        <text x={pad} y={row1Y + rowH / 2 + 4} fontSize="11" fontFamily="monospace" fontWeight="bold" fill="#f87171">REV</text>
+        {/* Impulse spike */}
+        <rect x={pad + 18} y={row1Y} width={9} height={rowH} fill="#f87171" rx="1" />
+        {/* Wash bars */}
+        {reverbBars.map((b, i) => (
+          <rect key={i} x={b.x} y={row1Y + rowH - b.h} width={8} height={b.h}
+            fill="#f87171" opacity={0.2 + 0.7 * Math.exp(-i * 0.12)} rx="1" />
+        ))}
+        {/* Separator */}
+        <line x1={pad} y1={row2Y - 6} x2={W - pad} y2={row2Y - 6} stroke="#1e293b" strokeWidth="1" />
 
-        {/* Wet / echoes */}
-        <polyline points={echoPoints} fill="none" stroke="#f43f5e" strokeWidth="1.5"
-          strokeLinejoin="round" strokeLinecap="round" />
-        <text x={pad + 2} y={wetY - 17} fontSize="7" fontFamily="monospace" fill="#f43f5e">Wet</text>
+        {/* ── Delay row ── */}
+        <text x={pad} y={row2Y + rowH / 2 + 4} fontSize="11" fontFamily="monospace" fontWeight="bold" fill="#fb923c">DLY</text>
+        {delaySpikes.map((s, i) => (
+          <rect key={i} x={s.x + 18} y={row2Y + rowH - s.h} width={14} height={s.h}
+            fill="#fb923c" opacity={1 - i * 0.15} rx="1" />
+        ))}
       </svg>
     </div>
   )

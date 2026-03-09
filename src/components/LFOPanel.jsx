@@ -36,7 +36,7 @@ const LFO_WAVEFORMS = [
 const LFO_TARGETS = [
   { value: 'filter',    label: 'Filter' },
   { value: 'pitch',     label: 'Pitch' },
-  { value: 'amplitude', label: 'Amp' },
+  { value: 'amplitude', label: 'Amplitude' },
 ]
 
 const BTN_BG     = '#ddd5c8'
@@ -48,7 +48,7 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
   const { lfoWaveform, lfoRate, lfoDepth, lfoTarget } = params
 
   return (
-    <section className="bg-hw-panel border border-hw-border rounded-lg p-5">
+    <section className="bg-hw-panel border border-hw-border rounded-lg p-5 h-full">
       {/* Panel header */}
       <div className="flex items-center gap-2 mb-5">
         <div className="w-1.5 h-4 rounded-sm bg-violet-500" />
@@ -164,13 +164,14 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
               <button
                 key={value}
                 onClick={() => onLFOTarget(value)}
-                className="flex-1 flex items-center gap-1.5 px-2 py-1.5 rounded transition-all duration-75"
+                className="flex-1 flex flex-col items-center gap-1 px-1.5 py-1.5 rounded transition-all duration-75"
                 style={{
                   background: isActive ? '#c8bcaf' : BTN_BG,
                   border: `1px solid ${BTN_BORDER}`,
                   boxShadow: isActive
                     ? 'inset 1px 1px 0 rgba(0,0,0,0.15), inset -1px -1px 0 rgba(255,255,255,0.2)'
                     : 'inset 1px 1px 0 rgba(255,255,255,0.5), inset -1px -1px 0 rgba(0,0,0,0.15)',
+                  minHeight: '37px',
                 }}
               >
                 <span style={{
@@ -178,7 +179,7 @@ export default function LFOPanel({ params, onLFOWaveform, onLFORate, onLFODepth,
                   background: isActive ? VIOLET : LED_OFF,
                   boxShadow: isActive ? `0 0 5px ${VIOLET}, 0 0 2px ${VIOLET}` : 'none',
                 }} />
-                <span className="text-[10px] font-mono tracking-widest uppercase"
+                <span className="text-[10px] font-mono tracking-widest uppercase text-center"
                   style={{ color: isActive ? '#2a1f1c' : '#6b5e56' }}>
                   {label}
                 </span>

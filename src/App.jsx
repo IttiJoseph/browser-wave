@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAudioEngine } from './hooks/useAudioEngine.js'
 import { PRESETS } from './audio/presets.js'
+import logoUrl from './assets/Logo.svg'
 import TransportBar from './components/TransportBar.jsx'
 import OscillatorPanel from './components/OscillatorPanel.jsx'
 import FilterPanel from './components/FilterPanel.jsx'
@@ -53,14 +54,12 @@ export default function App() {
       <main className="max-w-5xl mx-auto px-4 py-6">
 
         {/* Row 1: Hero + Oscilloscope */}
-        <div className="grid grid-cols-3 gap-3 mb-3">
+        <div className="grid grid-cols-3 gap-3 mb-3 items-stretch">
           {/* Hero */}
           <div className="bg-hw-panel border border-hw-border rounded-lg p-5 flex flex-col justify-center">
-            <h1 className="text-lg font-mono font-bold tracking-widest text-hw-strong uppercase mb-1">
-              Synth Explorer
-            </h1>
-            <p className="text-xs font-mono text-hw-muted tracking-wider">
-              Learn synthesis by playing with it
+            <img src={logoUrl} alt="Synth Explorer" style={{ width: '100%', height: 'auto', display: 'block' }} />
+            <p className="text-[10px] font-mono text-hw-muted tracking-wider">
+              Explore the building blocks of electronic music. Hit play or pick a song from the playlist to get started.
             </p>
           </div>
 
@@ -70,7 +69,7 @@ export default function App() {
         </div>
 
         {/* Row 2: Transport+Presets + Oscillator + Filter */}
-        <div className="grid grid-cols-3 gap-3 mb-3" style={{ height: '440px' }}>
+        <div className="grid grid-cols-3 gap-3 mb-3 items-stretch">
           <TransportBar
             isDroning={isDroning}
             audioReady={audioReady}
@@ -106,8 +105,8 @@ export default function App() {
         </div>
 
         {/* Row 3: Envelope + LFO + Effects */}
-        <div className="grid grid-cols-3 gap-3 mb-3">
-          <div>
+        <div className="grid grid-cols-3 gap-3 mb-3 items-stretch">
+          <div className="h-full">
             <EnvelopePanel
               params={params}
               onAttack={setAttack}
@@ -117,7 +116,7 @@ export default function App() {
             />
           </div>
 
-          <div>
+          <div className="h-full">
             <LFOPanel
               params={params}
               onLFOWaveform={setLFOWaveform}
@@ -127,7 +126,7 @@ export default function App() {
             />
           </div>
 
-          <div>
+          <div className="h-full">
             <EffectsPanel
               params={params}
               onReverbMix={setReverbMix}

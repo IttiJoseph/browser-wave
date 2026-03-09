@@ -7,11 +7,11 @@
  *   3. Riff playlist: dark Winamp aesthetic, Drone as first item
  */
 
-// Winamp playlist colors (riffs section only)
-const DARK_BG    = '#111318'
-const HEADER_BG  = '#0d0f13'
-const GREEN      = '#4ade80'
-const GREEN_DIM  = '#86efac'
+// Playlist colors
+const DARK_BG    = '#31461D'
+const HEADER_BG  = '#263D14'
+const GREEN      = '#6edd6e'
+const GREEN_DIM  = '#8edd8e'
 
 // Preset button colors (cream section, Winamp-style button shape)
 const BTN_BG     = '#ddd5c8'
@@ -71,16 +71,19 @@ export default function TransportBar({
     <section className="bg-hw-panel border border-hw-border rounded-lg overflow-hidden h-full flex flex-col">
 
       {/* ── Transport + LCD display ───────────────────────────────────── */}
-      <div className="p-3 flex items-center gap-3 border-b border-hw-border">
+      <div className="p-3 flex items-stretch gap-3 border-b border-hw-border">
         {/* Play / Stop button */}
         <button
           onClick={handlePlayStop}
-          className={`shrink-0 w-8 h-8 rounded flex items-center justify-center text-sm font-bold transition-all duration-100
-            ${isPlaying
-              ? 'bg-red-600 hover:bg-red-500 text-white'
-              : 'bg-hw-raised hover:bg-hw-border text-hw-strong'
-            }`}
-          style={{ boxShadow: 'inset 1px 1px 0 rgba(255,255,255,0.3), inset -1px -1px 0 rgba(0,0,0,0.15)' }}
+          className="shrink-0 px-3 rounded flex items-center justify-center text-sm font-bold transition-all duration-100"
+          style={{
+            background: isPlaying ? '#c8bcaf' : BTN_BG,
+            border: `1px solid ${BTN_BORDER}`,
+            boxShadow: isPlaying
+              ? 'inset 1px 1px 0 rgba(0,0,0,0.15), inset -1px -1px 0 rgba(255,255,255,0.2)'
+              : 'inset 1px 1px 0 rgba(255,255,255,0.5), inset -1px -1px 0 rgba(0,0,0,0.15)',
+            color: isPlaying ? '#2a1f1c' : '#6b5e56',
+          }}
           title={isPlaying ? 'Stop' : 'Play'}
         >
           {isPlaying ? '■' : '▶'}
@@ -102,10 +105,6 @@ export default function TransportBar({
             {nowPlaying}
           </div>
         </div>
-
-        {!audioReady && (
-          <span className="text-[9px] font-mono text-hw-muted shrink-0">tap to activate</span>
-        )}
       </div>
 
       {/* ── Presets ───────────────────────────────────────────────────── */}
@@ -152,16 +151,16 @@ export default function TransportBar({
         </div>
       </div>
 
-      {/* ── Riffs playlist (dark Winamp section) ──────────────────────── */}
+      {/* ── Playlist ──────────────────────────────────────────────────── */}
       <div
-        className="flex-1 overflow-y-auto flex flex-col min-h-0"
-        style={{ background: DARK_BG, scrollbarWidth: 'thin', scrollbarColor: '#2a2d35 transparent' }}
+        className="overflow-y-scroll playlist-scroll"
+        style={{ background: DARK_BG, scrollbarWidth: 'thin', scrollbarColor: '#456335 #1e2d0f', maxHeight: '125px' }}
       >
         <div
           className="px-3 py-1 text-[9px] font-mono tracking-widest uppercase border-b sticky top-0"
           style={{ background: HEADER_BG, color: GREEN, borderColor: '#1e2128', zIndex: 1 }}
         >
-          Riffs
+          Playlist
         </div>
 
         {rows.map((row, i) => (
@@ -175,7 +174,7 @@ export default function TransportBar({
               opacity: row.active ? 1 : 0.75,
             }}
           >
-            <span className="shrink-0 w-4 text-right text-[10px] font-mono" style={{ color: row.active ? GREEN : '#4b5563' }}>
+            <span className="shrink-0 w-4 text-right text-[10px] font-mono" style={{ color: GREEN }}>
               {i + 1}.
             </span>
             <span className="flex-1 truncate text-xs font-mono tracking-wide">{row.label}</span>

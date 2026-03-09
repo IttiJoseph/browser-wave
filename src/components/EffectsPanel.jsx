@@ -24,7 +24,7 @@ export default function EffectsPanel({
   const { reverbMix, reverbDecay, delayMix, delayTime, delayFeedback } = params
 
   return (
-    <section className="bg-hw-panel border border-hw-border rounded-lg p-5">
+    <section className="bg-hw-panel border border-hw-border rounded-lg p-5 h-full">
       {/* Panel header */}
       <div className="flex items-center gap-2 mb-5">
         <div className="w-1.5 h-4 rounded-sm bg-rose-500" />
