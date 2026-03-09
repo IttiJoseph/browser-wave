@@ -4,6 +4,7 @@ import OscillatorPanel from './components/OscillatorPanel.jsx'
 import FilterPanel from './components/FilterPanel.jsx'
 import EnvelopePanel from './components/EnvelopePanel.jsx'
 import LFOPanel from './components/LFOPanel.jsx'
+import EffectsPanel from './components/EffectsPanel.jsx'
 
 export default function App() {
   const {
@@ -31,6 +32,11 @@ export default function App() {
     setLFORate,
     setLFODepth,
     setLFOTarget,
+    setReverbMix,
+    setReverbDecay,
+    setDelayMix,
+    setDelayTime,
+    setDelayFeedback,
   } = useAudioEngine()
 
   return (
@@ -76,6 +82,15 @@ export default function App() {
           onLFORate={setLFORate}
           onLFODepth={setLFODepth}
           onLFOTarget={setLFOTarget}
+        />
+
+        <EffectsPanel
+          params={params}
+          onReverbMix={setReverbMix}
+          onReverbDecay={setReverbDecay}
+          onDelayMix={setDelayMix}
+          onDelayTime={setDelayTime}
+          onDelayFeedback={setDelayFeedback}
         />
       </main>
     </div>
