@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between border-t border-hw-border">
       <div>
         <span className="text-xs font-mono font-bold text-hw-body tracking-widest uppercase">
-          Synth Explorer
+          BrowserWave
         </span>
         <span className="text-xs font-mono text-hw-muted ml-3">
           An interactive guide to analog synthesis
@@ -12,7 +12,7 @@ export default function Footer() {
 
       <div className="flex items-center gap-4">
         <a
-          href="https://github.com/IttiJoseph/synth-explorer"
+          href="https://github.com/IttiJoseph/browser-wave"
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs font-mono text-hw-label hover:text-hw-strong tracking-wider uppercase transition-colors duration-100"

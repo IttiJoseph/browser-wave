@@ -97,7 +97,7 @@ export default function App() {
         <div className="grid grid-cols-3 gap-3 mb-3 items-stretch">
           {/* Hero */}
           <div className="bg-hw-panel border border-hw-border rounded-lg p-5 flex flex-col justify-center">
-            <img src={logoUrl} alt="Synth Explorer" style={{ width: '100%', height: 'auto', display: 'block' }} />
+            <img src={logoUrl} alt="BrowserWave" style={{ width: '100%', height: 'auto', display: 'block' }} />
             <p className="text-[10px] font-mono text-hw-muted tracking-wider">
               Explore the building blocks of electronic music. Hit play or pick a song from the playlist to get started.
             </p>
