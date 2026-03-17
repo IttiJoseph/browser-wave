@@ -2,6 +2,9 @@
 
 An interactive analog synthesizer in the browser — built to teach the fundamentals of sound synthesis.
 
+<img width="1023" height="860" alt="image" src="https://github.com/user-attachments/assets/7a13465a-0f87-4984-ba01-76f2c07e68bb" />
+
+
 **[Live Demo →](https://ittijoseph.github.io/browser-wave/)**
 
 ---
